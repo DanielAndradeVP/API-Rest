@@ -23,7 +23,7 @@ class StoreProductRequest extends FormRequest
     {
         // Campos obrigatórios
         return [
-            'nome' => ['required', 'string','unique:products,nome'],
+            'nome' => ['required', 'string', 'unique:products,nome'],
             'descricao' => ['required', 'string'],
             'preco' => ['required', 'int'],
         ];

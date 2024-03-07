@@ -35,12 +35,43 @@ INDEX
 ```
 ```
 FORMATO DE DADOS
-  response()->json (Response::HTTP_OK)
+  Response 200 OK
+  {
+	"current_page": 1,
+	"data": [],
+	"first_page_url": "http:\/\/127.0.0.1:8000\/api\/products?page=1",
+	"from": null,
+	"last_page": 1,
+	"last_page_url": "http:\/\/127.0.0.1:8000\/api\/products?page=1",
+	"links": [
+		{
+			"url": null,
+			"label": "&laquo; Previous",
+			"active": false
+		},
+		{
+			"url": "http:\/\/127.0.0.1:8000\/api\/products?page=1",
+			"label": "1",
+			"active": true
+		},
+		{
+			"url": null,
+			"label": "Next &raquo;",
+			"active": false
+		}
+	],
+	"next_page_url": null,
+	"path": "http:\/\/127.0.0.1:8000\/api\/products",
+	"per_page": 10,
+	"prev_page_url": null,
+	"to": null,
+	"total": 0
+}
 ```
 #### Cria um produto 
 
 ```http-
-  POST: /api/product
+  POST /api/product
 ```
 ```
 STORE
@@ -50,7 +81,28 @@ STORE
 ```
 ```
 FORMATO DE DADOS
-  response()->json (Response::HTTP_CREATED)
+ Response 201 CREATED
+  {
+	"menssage": "Sucessfully created",
+	"data": {
+		"nome": "garrafa 2",
+		"descricao": "cheguei",
+		"preco": "100",
+		"updated_at": "2024-03-07T19:44:23.000000Z",
+		"created_at": "2024-03-07T19:44:23.000000Z",
+		"id": 11
+	}
+}
+
+Response 422 Unprocessable Content
+{
+	"message": "The nome field is required.",
+	"errors": {
+		"nome": [
+			"The nome field is required."
+		]
+	}
+}
 ```
 
 #### Busca um produto específico
@@ -66,7 +118,20 @@ SHOW
 ```
 ```
 FORMATO DE DADOS
-  response()->json (Response::HTTP_OK)
+Response 404 Not Found
+{
+	"data": "Product not found"
+}
+
+Response 200 OK
+{
+	"id": 1,
+	"nome": "Garrafa",
+	"descricao": "metal bom",
+	"preco": 30,
+	"created_at": "2024-03-07T19:56:24.000000Z",
+	"updated_at": "2024-03-07T19:56:24.000000Z"
+}
 ```  
 
 #### Atualiza um produto
@@ -82,7 +147,23 @@ UPDATE
 ```
 ```
 FORMATO DE DADOS
-  response()->json (Response::HTTP_OK)
+  Response 200 OK
+  {
+	"data": "Updated sucessfully",
+	"product": {
+		"id": 1,
+		"nome": "teste",
+		"descricao": "teste",
+		"preco": 100,
+		"created_at": "2024-03-07T19:56:24.000000Z",
+		"updated_at": "2024-03-07T19:58:41.000000Z"
+	}
+}
+
+Response 422 Unprocessable Content
+{
+	"data": "product does not exist"
+}
 ```
 #### Deleta um produto
 
@@ -97,6 +178,14 @@ UPDATE
 ```
 ```
 FORMATO DE DADOS
-  response()->json (Response::HTTP_OK)
+Response 200 OK
+{
+	"data": "Deleted sucessfully"
+}
+
+RESPONSE 404 Not Found
+{
+	"data": "Product not exist"
+}
 ```
   

@@ -19,7 +19,7 @@ class ProductController extends Controller
         // Define o limite da consulta
         $products = Product::query()->paginate(10);
 
-        // Retorna uma resposta 
+        // Retorna uma resposta
         return response()->json($products, Response::HTTP_OK);
     }
 
@@ -53,7 +53,7 @@ class ProductController extends Controller
         }
 
         // Retorna uma resposta
-        return Response()->json($product,Response::HTTP_OK);
+        return Response()->json($product, Response::HTTP_OK);
     }
 
     /**
@@ -85,7 +85,7 @@ class ProductController extends Controller
         return response()->json([
             'data' => 'Updated sucessfully',
             'product' => $product->refresh(),
-        ],Response::HTTP_OK);
+        ], Response::HTTP_OK);
 
     }
 
@@ -103,6 +103,7 @@ class ProductController extends Controller
 
         // Deleta o produto
         $product->delete();
-        return response()->json(['data' => 'Deleted sucessfully'],Response::HTTP_OK);
+
+        return response()->json(['data' => 'Deleted sucessfully'], Response::HTTP_OK);
     }
 }
