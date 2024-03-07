@@ -33,12 +33,12 @@ INDEX
 - Define o limite de consulta de produtos por pagina (10)
 - Retorna os produtos de forma paginada
 ```
-```
+```json
 FORMATO DE DADOS
   Response 200 OK
   {
 	"current_page": 1,
-	"data": [],
+	"data": ["Produtos"],
 	"first_page_url": "http:\/\/127.0.0.1:8000\/api\/products?page=1",
 	"from": null,
 	"last_page": 1,
@@ -79,18 +79,18 @@ STORE
 - Verifica se o produto já foi criado
 - Cria o produto e armazena no banco de dados
 ```
-```
+```json
 FORMATO DE DADOS
  Response 201 CREATED
   {
 	"menssage": "Sucessfully created",
 	"data": {
-		"nome": "garrafa 2",
-		"descricao": "cheguei",
-		"preco": "100",
+		"nome": "Nome do produto",
+		"descricao": "Descrição do produto",
+		"preco": "Preço do produto",
 		"updated_at": "2024-03-07T19:44:23.000000Z",
 		"created_at": "2024-03-07T19:44:23.000000Z",
-		"id": 11
+		"id": "Id"
 	}
 }
 
@@ -116,19 +116,19 @@ SHOW
 - Valida se o produto existe
 - Retorna o produto
 ```
-```
+``` json
 FORMATO DE DADOS
 Response 404 Not Found
 {
 	"data": "Product not found"
 }
 
-Response 200 OK
+Response 200 OK 
 {
-	"id": 1,
-	"nome": "Garrafa",
-	"descricao": "metal bom",
-	"preco": 30,
+	"id": "Id",
+	"nome": "Nome do produto",
+	"descricao": "Descrição do produto",
+	"preco": "Preço do produto",
 	"created_at": "2024-03-07T19:56:24.000000Z",
 	"updated_at": "2024-03-07T19:56:24.000000Z"
 }
@@ -145,16 +145,16 @@ UPDATE
 - Verifica se o produto foi atualizado com sucesso
 - Retorna uma resposta de sucesso e atualiza o banco de dados
 ```
-```
+```json
 FORMATO DE DADOS
   Response 200 OK
   {
 	"data": "Updated sucessfully",
 	"product": {
-		"id": 1,
-		"nome": "teste",
-		"descricao": "teste",
-		"preco": 100,
+		"id": "Id",
+		"nome": "Nome do produto",
+		"descricao": "Descrição do produto ",
+		"preco": "Preço do produto",
 		"created_at": "2024-03-07T19:56:24.000000Z",
 		"updated_at": "2024-03-07T19:58:41.000000Z"
 	}
@@ -176,7 +176,7 @@ UPDATE
 - Se o produto não existir exibe um erro 404
 - Deleta o produto
 ```
-```
+```json
 FORMATO DE DADOS
 Response 200 OK
 {
@@ -186,6 +186,28 @@ Response 200 OK
 RESPONSE 404 Not Found
 {
 	"data": "Product not exist"
+}
+```
+
+### Exemplo de novo (Create) [POST]
+```json
+{
+	"nome": "Nome do produto",
+	"descricao": "Descrição do produto",
+	"preco": "Preço do produto"
+}
+
+Response 201 Created
+{
+	"menssage": "Sucessfully created",
+	"data": {
+		"nome": "Nome do produto",
+		"descricao": "Descrição do produto",
+		"preco": "Preço do produto",
+		"updated_at": "2024-03-07T20:28:06.000000Z",
+		"created_at": "2024-03-07T20:28:06.000000Z",
+		"id": "Id"
+	}
 }
 ```
   
