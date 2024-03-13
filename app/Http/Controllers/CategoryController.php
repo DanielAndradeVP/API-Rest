@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreProductRequest;
-use App\Http\Requests\UpdateProductRequest;
-use App\Models\Product;
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
+use App\Models\Category;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
-class ProductController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,75 +16,69 @@ class ProductController extends Controller
     public function index(): JsonResponse
     {
         // Define o limite da consulta
-        $products = Product::paginate(10);
+        $categories = Category::all();
 
         // Retorna uma resposta
-        return response()->json($products, Response::HTTP_OK);
+        return response()->json($categories, Response::HTTP_OK);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function store(StoreProductRequest $request): JsonResponse
+    public function store(StoreCategoryRequest $request)
     {
         // Valida o produto
-        $data = $request->validated();
 
         // Armazenar no banco de dados
-        $product = Product::create($data);
-        if (! $product) {
+        $category = Category::create($request->all());
+        if (! $category) {
             return response()->json([
-                'message' => 'Product not created'],
+                'message' => 'Category not created'],
                 Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         // Retorna um resposta
         return response()->json([
             'message' => 'Sucessfully created',
-            'data' => $product, ],
+            'data' => $category, ],
             Response::HTTP_CREATED);
     }
 
-    /**
-     * Show the specified resource.
-     */
     public function show(int $id)
     {
         // Valida se o produto existe
-        $product = Product::find($id);
-        if (! $product) {
+        $category = Category::find($id);
+        if (! $category) {
             return response()->json([
-                'message' => 'Product not found'],
+                'message' => 'Category not found'],
                 Response::HTTP_NOT_FOUND);
         }
+        $category->products;
 
         // Retorna uma resposta
         return Response()->json([
-            'data' => $product,
+            'data' => $category,
             Response::HTTP_OK]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateProductRequest $request, $id): JsonResponse
+    public function update(UpdateCategoryRequest $request, $id): JsonResponse
     {
         // Valida se o produto existe
         $data = $request->validated();
-        $product = Product::find($id);
+        $category = Category::find($id);
 
-        if (! $product) {
+        if (! $category) {
             return response()->json(
-                ['message' => 'product does not exist'],
+                ['message' => 'Category does not exist'],
                 Response::HTTP_UNPROCESSABLE_ENTITY
             );
         }
 
         // Valida a atualização
-        $response = $product->update($data);
+        $response = $category->update($data);
         if (! $response) {
             return response()->json([
-                'message' => 'Error to the update the product.'],
+                'message' => 'Error to the update the category.'],
                 Response::HTTP_UNPROCESSABLE_ENTITY
             );
         }
@@ -92,28 +86,25 @@ class ProductController extends Controller
         // Retorna uma resposta
         return response()->json([
             'message' => 'Updated sucessfully',
-            'data' => $product->refresh(),
+            'data' => $category,
         ], Response::HTTP_OK);
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id): JsonResponse
     {
         // Valida se o produto existe
-        $product = Product::find($id);
+        $category = Category::find($id);
 
-        if (! $product) {
+        if (! $category) {
 
             return response()->json([
-                'message' => 'Product not exist'],
+                'message' => 'Category not exist'],
                 Response::HTTP_NOT_FOUND);
         }
 
         // Deleta o produto
-        $product->delete();
+        $category->delete();
 
         return response()->json([
             'message' => 'Deleted sucessfully'],

@@ -1,6 +1,26 @@
 # APIREST
 A APIREST disponibiliza maneiras de se operar em informação armazenada com persistência de dados.
 
+### Como rodar o programa?
+Requisitos:
+- Ferramenta de administração de banco de dados (DBeaver 23.3.5)
+- Framework para teste de API Clients (Insomnia version 8.6.1)
+- Gerenciador de dependências 
+(Composer version 2.7.1)
+ 
+
+#### Clonando o repositório
+Digite git clone e cole a URL já copiada no link. Pressione ENTER para criar seu clone local.
+```
+git clone <URL_do_seu_repositorio>
+```
+
+#### Composer install
+execute o comando composer install para instalar todas as dependências de pacotes
+```
+Composer install
+```
+
 #### Recursos disponíveis para acesso via API:
 
 - Busca paginada de produtos
@@ -9,8 +29,6 @@ A APIREST disponibiliza maneiras de se operar em informação armazenada com per
 - Atualização de propriedade
 - Remoção de produto do banco de dados
 
-#### Acesso
-Digite git clone e cole a URL já copiada no link. Pressione ENTER para criar seu clone local.
 
 #### Métodos 
 Requisições para a API devem seguir os padrões:
@@ -85,12 +103,12 @@ FORMATO DE DADOS
   {
 	"menssage": "Sucessfully created",
 	"data": {
-		"nome": "Nome do produto",
-		"descricao": "Descrição do produto",
-		"preco": "Preço do produto",
+		"nome": "Luminária de parede",
+		"descricao": "Decoração com delicadeza",
+		"preco": "100",
 		"updated_at": "2024-03-07T19:44:23.000000Z",
 		"created_at": "2024-03-07T19:44:23.000000Z",
-		"id": "Id"
+		"id": "1"
 	}
 }
 
@@ -126,9 +144,9 @@ Response 404 Not Found
 Response 200 OK 
 {
 	"id": "Id",
-	"nome": "Nome do produto",
-	"descricao": "Descrição do produto",
-	"preco": "Preço do produto",
+	"nome": "Luminária de parede",
+	"descricao": "Decoração com delicadeza",
+	"preco": "100",
 	"created_at": "2024-03-07T19:56:24.000000Z",
 	"updated_at": "2024-03-07T19:56:24.000000Z"
 }
@@ -151,10 +169,10 @@ FORMATO DE DADOS
   {
 	"data": "Updated sucessfully",
 	"product": {
-		"id": "Id",
-		"nome": "Nome do produto",
-		"descricao": "Descrição do produto ",
-		"preco": "Preço do produto",
+		"id": "1",
+		"nome": "Abajour vintage de parede",
+		"descricao": "Decoração com delicadeza ",
+		"preco": "100",
 		"created_at": "2024-03-07T19:56:24.000000Z",
 		"updated_at": "2024-03-07T19:58:41.000000Z"
 	}
@@ -192,21 +210,22 @@ RESPONSE 404 Not Found
 ### Exemplo de novo (Create) [POST]
 ```json
 {
-	"nome": "Nome do produto",
-	"descricao": "Descrição do produto",
-	"preco": "Preço do produto"
+	"nome": "Balança digital de cozinha",
+	"descricao": "A comida da mamãe só é a melhor porque ela usa a balança digital",
+	"preco": "50",
+	"category_id": "1"
 }
 
 Response 201 Created
 {
 	"menssage": "Sucessfully created",
 	"data": {
-		"nome": "Nome do produto",
-		"descricao": "Descrição do produto",
-		"preco": "Preço do produto",
+		"nome": "Balança digital de cozinha",
+		"descricao": "A comida da mamãe só é a melhor porque ela usa a balança digital",
+		"preco": "50",
 		"updated_at": "2024-03-07T20:28:06.000000Z",
 		"created_at": "2024-03-07T20:28:06.000000Z",
-		"id": "Id"
+		"id": "1"
 	}
 }
 ```
