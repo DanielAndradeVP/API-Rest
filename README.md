@@ -20,6 +20,18 @@ execute o comando composer install para instalar todas as dependências de pacot
 ```
 Composer install
 ```
+#### Variáveis de ambiente
+Crie um arquivo na pasta raiz do projeto com o nome .env, copie todo o conteúdo do arquivo .env.example e cole no arquivo .env que foi criado.
+
+
+#### Conexão com o banco de dados
+Faça a conexão com banco de dados MySql usando o gerenciador Dbeaver-ce
+
+#### Fazendo as migrações
+Execute o comando seguinte comando:
+```
+php artisan migrate
+```
 
 #### Recursos disponíveis para acesso via API:
 
