@@ -19,7 +19,9 @@ class ProductController extends Controller
         $products = Product::paginate(10);
 
         // Retorna uma resposta
-        return response()->json($products, Response::HTTP_OK);
+        return response()->json([
+            'data' => $products], 
+            Response::HTTP_OK);
     }
 
     /**
@@ -74,8 +76,8 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         if (! $product) {
-            return response()->json(
-                ['message' => 'product does not exist'],
+            return response()->json([
+                'message' => 'product does not exist'],
                 Response::HTTP_UNPROCESSABLE_ENTITY
             );
         }
@@ -92,8 +94,8 @@ class ProductController extends Controller
         // Retorna uma resposta
         return response()->json([
             'message' => 'Updated sucessfully',
-            'data' => $product->refresh(),
-        ], Response::HTTP_OK);
+            'data' => $product],
+             Response::HTTP_OK);
 
     }
 
@@ -104,9 +106,7 @@ class ProductController extends Controller
     {
         // Valida se o produto existe
         $product = Product::find($id);
-
         if (! $product) {
-
             return response()->json([
                 'message' => 'Product not exist'],
                 Response::HTTP_NOT_FOUND);
@@ -114,7 +114,6 @@ class ProductController extends Controller
 
         // Deleta o produto
         $product->delete();
-
         return response()->json([
             'message' => 'Deleted sucessfully'],
             Response::HTTP_OK);

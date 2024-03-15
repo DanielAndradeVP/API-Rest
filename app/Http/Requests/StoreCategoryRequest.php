@@ -35,9 +35,11 @@ class StoreCategoryRequest extends FormRequest
     {
         return [
             'name.required' => 'A name is required',
+            'name.string' => 'the name most be string',
             'name.unique' => 'The name is already in use',
             'name.min' => 'The minimum characters is 3',
             'name.max' => 'the maximum characters is 20',
+          
         ];
     }
 }

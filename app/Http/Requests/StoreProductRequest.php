@@ -50,18 +50,17 @@ class StoreProductRequest extends FormRequest
     public function messages()
     {
         return [
-            // Product
             'name.required' => 'A name is required',
+            'name.string' => 'A name most be an string',
             'name.unique' => 'The name is already in use',
             'name.min' => 'The minimum characters is 3',
             'name.max' => 'the maximum characters is 50',
             'description.required' => 'the description is required',
+            'description.string' => 'the description most be string',
             'price.required' => 'the price is required',
             'price.int' => 'the price must be intereger',
-
-            // Category
             'category_id.required' => 'the category_id is required',
-            'category_id.int' => 'the category_id most be int',
+            'category_id.int' => 'the category_id most be an int',
             'category_id.unique' => 'The category name is already in use',
             'category_id.exists' => 'The category no exists',
         ];

@@ -24,21 +24,20 @@ class UpdateProductRequest extends FormRequest
 
         return [
             'name' => [
-                'nullable',
                 'max:50',
                 'min:3',
                 'string',
                 'unique:products,name',
             ],
             'description' => [
-                'nullable',
                 'string',
                 'min:5',
                 'max:100',
             ],
             'price' => [
-                'nullable',
                 'int',
+                'min_digits:1',
+                'max_digits:5'
             ],
         ];
     }
@@ -47,11 +46,16 @@ class UpdateProductRequest extends FormRequest
     {
 
         return [
-            'name.unique' => 'The name is already in use',
-            'name.min' => 'The minimum characters is 3',
             'name.max' => 'the maximum characters is 50',
-            'price.int' => 'the price must be intereger',
-            'description.min' => 'the description have a minimum caracters ',
+            'name.min' => 'The minimum characters is 3',
+            'name.string' => 'The name most be string',
+            'name.unique' => 'The name is already in use',
+            'description.min' => 'the description have a minimum 3 caracters',
+            'description.max' => 'the description have a maximum 100 caracters ',
+            'description.string' => 'the description must be string',
+            'price.min_digits' => 'the minimum number of decimal places is 1',
+            'price.max_digits' => 'the maximum number of decimal places is 5',
+            'price.int' => 'The price most be an intereger',
         ];
     }
 }

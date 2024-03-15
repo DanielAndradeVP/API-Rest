@@ -38,9 +38,10 @@ class UpdateCategoryRequest extends FormRequest
 
         return [
             'name.required' => 'The name is required',
-            'name.unique' => 'The name is already in use',
-            'name.min' => 'The minimum characters is 3',
             'name.max' => 'the maximum characters is 20',
+            'name.min' => 'The minimum characters is 3',
+            'name.string' => 'the name most be string',
+            'name.unique' => 'The name is already in use',
         ];
     }
 }

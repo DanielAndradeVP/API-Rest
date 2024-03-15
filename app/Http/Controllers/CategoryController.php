@@ -15,11 +15,13 @@ class CategoryController extends Controller
      */
     public function index(): JsonResponse
     {
-        // Define o limite da consulta
+        // Busca todas as categorias existentes
         $categories = Category::all();
 
         // Retorna uma resposta
-        return response()->json($categories, Response::HTTP_OK);
+        return response()->json([
+            'data' => $categories, 
+            Response::HTTP_OK]);
     }
 
     /**
@@ -27,10 +29,8 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        // Valida o produto
-
-        // Armazenar no banco de dados
-        $category = Category::create($request->all());
+        // Valida e cria categoria
+        $category = Category::create($request->validated());
         if (! $category) {
             return response()->json([
                 'message' => 'Category not created'],
@@ -46,7 +46,7 @@ class CategoryController extends Controller
 
     public function show(int $id)
     {
-        // Valida se o produto existe
+        // Valida se a categoria existe
         $category = Category::find($id);
         if (! $category) {
             return response()->json([
@@ -63,10 +63,8 @@ class CategoryController extends Controller
 
     public function update(UpdateCategoryRequest $request, $id): JsonResponse
     {
-        // Valida se o produto existe
-        $data = $request->validated();
+        // Valida se a categoria existe
         $category = Category::find($id);
-
         if (! $category) {
             return response()->json(
                 ['message' => 'Category does not exist'],
@@ -74,9 +72,12 @@ class CategoryController extends Controller
             );
         }
 
-        // Valida a atualização
-        $response = $category->update($data);
-        if (! $response) {
+        // Valida os campos obrigatórios do payload
+        $data = $request->validated();
+
+        // Atualiza a categoria validada
+        $category->update($data);
+        if (! $category) {
             return response()->json([
                 'message' => 'Error to the update the category.'],
                 Response::HTTP_UNPROCESSABLE_ENTITY
@@ -93,19 +94,16 @@ class CategoryController extends Controller
 
     public function destroy($id): JsonResponse
     {
-        // Valida se o produto existe
+        // Valida se a categoria existe
         $category = Category::find($id);
-
         if (! $category) {
-
             return response()->json([
                 'message' => 'Category not exist'],
                 Response::HTTP_NOT_FOUND);
         }
 
-        // Deleta o produto
+        // Deleta a categoria
         $category->delete();
-
         return response()->json([
             'message' => 'Deleted sucessfully'],
             Response::HTTP_OK);
