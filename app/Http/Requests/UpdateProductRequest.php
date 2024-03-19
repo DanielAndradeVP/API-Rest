@@ -31,13 +31,10 @@ class UpdateProductRequest extends FormRequest
             ],
             'description' => [
                 'string',
-                'min:5',
-                'max:100',
             ],
             'price' => [
                 'int',
                 'min_digits:1',
-                'max_digits:5'
             ],
         ];
     }
@@ -54,7 +51,6 @@ class UpdateProductRequest extends FormRequest
             'description.max' => 'the description have a maximum 100 caracters ',
             'description.string' => 'the description must be string',
             'price.min_digits' => 'the minimum number of decimal places is 1',
-            'price.max_digits' => 'the maximum number of decimal places is 5',
             'price.int' => 'The price most be an intereger',
         ];
     }

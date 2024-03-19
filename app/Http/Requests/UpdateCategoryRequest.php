@@ -25,7 +25,6 @@ class UpdateCategoryRequest extends FormRequest
         return [
             'name' => [
                 'required',
-                'max:20',
                 'min:3',
                 'string',
                 'unique:categories,name',
@@ -38,7 +37,6 @@ class UpdateCategoryRequest extends FormRequest
 
         return [
             'name.required' => 'The name is required',
-            'name.max' => 'the maximum characters is 20',
             'name.min' => 'The minimum characters is 3',
             'name.string' => 'the name most be string',
             'name.unique' => 'The name is already in use',

@@ -14,9 +14,9 @@ return new class extends Migration
         // Colunas da tabela do banco de dados
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('category_id')->constrained();
             $table->string('name');
-            $table->string('description');
+            $table->longText('description');
             $table->integer('price');
             $table->timestamps();
         });

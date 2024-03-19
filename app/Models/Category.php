@@ -10,11 +10,12 @@ class Category extends Model
     protected $fillable = [
         'id',
         'name',
+        'status',
     ];
 
     protected $hidden = [
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
     public function products(): HasMany

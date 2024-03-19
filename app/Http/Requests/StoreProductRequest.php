@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\StatusRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProductRequest extends FormRequest
@@ -41,9 +42,10 @@ class StoreProductRequest extends FormRequest
             'category_id' => [
                 'required',
                 'exists:categories,id',
-                'unique:categories,name',
                 'int',
+                new StatusRule,
             ],
+
         ];
     }
 
@@ -61,8 +63,8 @@ class StoreProductRequest extends FormRequest
             'price.int' => 'the price must be intereger',
             'category_id.required' => 'the category_id is required',
             'category_id.int' => 'the category_id most be an int',
-            'category_id.unique' => 'The category name is already in use',
             'category_id.exists' => 'The category no exists',
+            'status.required' => 'The category is not active',
         ];
     }
 }

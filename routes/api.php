@@ -27,3 +27,5 @@ Route::get('/categories/{id}', [CategoryController::class, 'show']);
 Route::put('/categories/{id}', [CategoryController::class, 'update']);
 
 Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
+
+Route::put('/categories/status/{id}', [CategoryController::class, 'UpdateStatus']);

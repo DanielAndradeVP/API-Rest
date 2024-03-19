@@ -2,19 +2,14 @@
 A APIREST disponibiliza maneiras de se operar em informação armazenada com persistência de dados.
 
 ### Requisitos:
-- Laravel Framework ^10.46.0
-- DBeaver ^23.3.5
-- PHP ^8.1
-- MySQL ^8.0
-- Composer ^2.7.1
+- SGBD(Sistema de gereciamento de banco de dados)
+- PHP 
+- MySQL 
+- Composer 
 
 ## Preparando o ambiente:
-#### Laravel
-- Laravel Framework ^10.46.0 (Link do manual para instalação)
-```
-https://laravel.com/docs/10.x/installation
-```
 #### Dbeaver
+SGBD(Indicado)
 - DBeaver ^23.3.5 (Link do manual para instalação)
 ```
 https://dbeaver.io/download/
@@ -40,7 +35,7 @@ https://getcomposer.org/download/
 1. Verifique se todos os requisitos estão devidamente instalados para prosseguir 
 2. No terminal, Dentro da pasta raiz que deseja abrir o Projeto APIREST Digite git clone ,  e cole a URL já copiada no link. Pressione ENTER para criar seu clone local, exemplo:
 ```
-git clone <URL_do_seu_repositorio>
+git clone https://github.com/DanielAndradeVP/API-Rest.git
 ```
 
 #### Como instalar as dependências?
@@ -53,15 +48,9 @@ Composer install
 2. Copie todo o conteúdo do arquivo .env.example e cole no arquivo .env que foi criado.
 
 ## Conexão com o banco de dados
-- Com as variáveis de ambiente configuradas, o MySQL e Dbeaver instalados, já podemos fazer nossa conexão com o banco de dados MySQL, usando o gerenciador Dbeaver-ce
-1. Abra o Dbeaver
-2. Clique em nova conexão, ou pressione Shift+Ctrl+N para iniciar uma nova conexão
-3. Selecione o banco de dados MySQL 
-4. Preencha campo senha no arquivo .env e nas configurações de conexão com sua senha
-5. Clique em testar conexão
-4. Clique em concluir para finalizar a conexão
+- Configure a conexão com o gerenciador de banco de dados selecionado 
 
-## Fazendo as migrações
+## Migração de dados
 Faça as migrações do projeto para o banco de dados. Execute o seguinte comando:
 ```
 php artisan migrate
@@ -76,11 +65,13 @@ php artisan serve
 ### Produtos
 - Busca paginada de produtos
 - Criação de produtos relacionados com uma categoria
+- Criação de produtos  com categoria ativa
 - Busca por produto único
 - Atualização de propriedade
 - Exclusão de produto 
 ### Categorias
 - Criação de Categoria
+- Alteração de status da categoria, ativa ou inativa.
 - Busca de todos os produtos de uma única categoria
 - Busca única de categoria
 - Atualização do nome da categoria
@@ -301,6 +292,28 @@ RESPONSE 404 Not Found
 }
 ```
 
+### Atualiza o status de uma categoria 
+```
+PUT /categories/status/{id}
+```
+```json
+Payload
+
+{
+	"status": true
+}
+
+Response 200 OK
+{
+	"message": "Status updated successfully",
+	"data": {
+		"id": 4,
+		"name": "Academia",
+		"status": true
+	}
+}
+```
+
 ### Exemplo de novo (Create) [POST]
 ```json
 Payload
@@ -323,183 +336,5 @@ Response 201 Created
 		"category_id": 1,
 		"id": 3
 	}
-}
-```
-## Categoria
-### Retorna todas as categorias
-
-```http
-  GET: /api/categories
-```
-```
-INDEX
--  Busca todas as categorias existentes
--  Retorna uma resposta
-```
-```json
-FORMATO DE DADOS
-  Response 200 OK
- {
-	"data": [
-		{
-			"id": 1,
-			"name": "Emagrecimento"
-		},
-		{
-			"id": 2,
-			"name": "Beleza"
-		},
-		{
-			"id": 3,
-			"name": "Biohacking"
-		}
-	],
-	"0": 200
-}
-```
-### Cria uma categoria 
-
-```http-
-  POST /api/categories
-```
-```
-STORE
-- Valida e cria categoria
-- Retorna um resposta
-```
-```json
-FORMATO DE DADOS
-
-Payload
-
-{
-	"name": "Emagrecimento"
-}
-
-Response 201 CREATED
-{
-	"message": "Sucessfully created",
-	"data": {
-		"name": "Emagrecimento",
-		"id": 3
-	}
-}
-
-Response 422 Unprocessable Content
-{
-	"message": "A name is required",
-	"errors": {
-		"name": [
-			"A name is required"
-		]
-	}
-}
-```
-
-### Busca todos os produtos de uma categoria
-
-```http
-  GET /api/categories/{id}
-```
-```
-SHOW
-- Valida se a categoria existe
-- Retorna uma resposta
-```
-``` json
-FORMATO DE DADOS
-
-Response 404 Not Found
-{
-	"message": "Category not found"
-}
-
-Response 200 OK 
-{
-	"data": {
-		"id": 1,
-		"name": "Emagrecimento",
-		"products": [
-			{
-				"id": 1,
-				"category_id": 1,
-				"name": "Detox lift 3 unidades emagrecedor corpo perfeito",
-				"description": "Noites tranquilas",
-				"price": 297
-			},
-			{
-				"id": 3,
-				"category_id": 1,
-				"name": "Detox lift emagrecedor corpo perfeito",
-				"description": "Ingredientes naturais comprovados ",
-				"price": 97
-			},
-			{
-				"id": 4,
-				"category_id": 1,
-				"name": "Lipo lift sonho corpo perfeito",
-				"description": "Uma revolução na busca por um corpo esbelto e saudável",
-				"price": 97
-			}
-		]
-	},
-	"0": 200
-}
-```  
-
-## Atualiza uma categoria
-
-```http
-  PUT /api/categories/{id}
-```
-```
-UPDATE
-- Valida se a categoria existe
-- Valida os campos obrigatórios do payload
-- Atualiza a categoria validada
-```
-```json
-FORMATO DE DADOS
-
-Payload
-{
-	"name": "Emagrecimento"
-}
-
-Response 200 OK
-{
-	"message": "Updated sucessfully",
-	"data": {
-		"id": 1,
-		"name": "Emagrecimento"
-	}
-}
-
-Response 422 Unprocessable Content
-{
-	"message": "Category does not exist"
-}
-```
-
-## Deleta uma categoria
-
-```http
-  DELETE /api/categories/{id}
-```
-```
-UPDATE
-- Valida se a categoria existe
-- Deleta a categoria
-```
-```json
-FORMATO DE DADOS
-Response 200 OK
-{
-	"message": "Deleted sucessfully"
-}
-
-RESPONSE 404 Not Found
-{
-	"message": "Category not exist"
 }
 ```

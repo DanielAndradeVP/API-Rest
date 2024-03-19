@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Http\Requests\UpdateStatusRequest;
 use App\Models\Category;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -20,8 +21,8 @@ class CategoryController extends Controller
 
         // Retorna uma resposta
         return response()->json([
-            'data' => $categories, 
-            Response::HTTP_OK]);
+            'data' => $categories],
+            Response::HTTP_OK);
     }
 
     /**
@@ -29,70 +30,73 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
+        $dataValidated = $request->validated();
+
         // Valida e cria categoria
-        $category = Category::create($request->validated());
+        $category = Category::create($dataValidated);
         if (! $category) {
             return response()->json([
                 'message' => 'Category not created'],
-                Response::HTTP_UNPROCESSABLE_ENTITY);
+                Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        // Retorna um resposta
+        // Retura uma resposta
         return response()->json([
-            'message' => 'Sucessfully created',
-            'data' => $category, ],
+            'message' => 'Successfully created',
+            'data' => $category],
             Response::HTTP_CREATED);
     }
 
     public function show(int $id)
     {
-        // Valida se a categoria existe
+        // Valida de a categoria existe
         $category = Category::find($id);
         if (! $category) {
             return response()->json([
                 'message' => 'Category not found'],
                 Response::HTTP_NOT_FOUND);
         }
+
         $category->products;
 
         // Retorna uma resposta
         return Response()->json([
-            'data' => $category,
-            Response::HTTP_OK]);
+            'data' => $category],
+            Response::HTTP_OK
+        );
     }
 
     public function update(UpdateCategoryRequest $request, $id): JsonResponse
     {
-        // Valida se a categoria existe
+        // Valida que a categoria existe
         $category = Category::find($id);
         if (! $category) {
-            return response()->json(
-                ['message' => 'Category does not exist'],
-                Response::HTTP_UNPROCESSABLE_ENTITY
-            );
+            return response()->json([
+                'message' => 'Category does not exist'],
+                Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        // Valida os campos obrigatórios do payload
+        // Valida os campos do payload obrigatórios
         $data = $request->validated();
 
         // Atualiza a categoria validada
         $category->update($data);
         if (! $category) {
             return response()->json([
-                'message' => 'Error to the update the category.'],
-                Response::HTTP_UNPROCESSABLE_ENTITY
+                'message' => 'Error to the update the category'],
+                Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }
 
         // Retorna uma resposta
         return response()->json([
-            'message' => 'Updated sucessfully',
-            'data' => $category,
-        ], Response::HTTP_OK);
+            'message' => 'Updated successfully',
+            'data' => $category],
+            Response::HTTP_OK);
 
     }
 
-    public function destroy($id): JsonResponse
+    public function destroy(int $id): JsonResponse
     {
         // Valida se a categoria existe
         $category = Category::find($id);
@@ -102,10 +106,45 @@ class CategoryController extends Controller
                 Response::HTTP_NOT_FOUND);
         }
 
-        // Deleta a categoria
-        $category->delete();
+        $response = $category->delete();
+        if (! $response) {
+            return response()->json([
+                'message' => 'Error when product delete'],
+                Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
         return response()->json([
-            'message' => 'Deleted sucessfully'],
+            'message' => 'Deleted successfully'],
+            Response::HTTP_OK);
+    }
+
+    public function UpdateStatus(UpdateStatusRequest $request, $id)
+    {
+        // Busca a categoria
+        $category = Category::find($id);
+        if (! $category) {
+            return response()->json([
+                'message' => 'Category does not exist'],
+                Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        // Busca o novo status passado no JSON
+        $newStatus = $request->status;
+
+        // Atualiza o status da categoria
+        $category->status = $newStatus;
+
+        // Salva o novo status da categoria
+        if (! $category->save()) {
+            return response()->json([
+                'message' => 'Error to save category'],
+                Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        // Retorna uma resposta
+        return response()->json([
+            'message' => 'Status updated successfully',
+            'data' => $category],
             Response::HTTP_OK);
     }
 }

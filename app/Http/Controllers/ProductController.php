@@ -19,8 +19,8 @@ class ProductController extends Controller
         $products = Product::paginate(10);
 
         // Retorna uma resposta
-        return response()->json([
-            'data' => $products], 
+        return response()->json(
+            $products,
             Response::HTTP_OK);
     }
 
@@ -37,13 +37,13 @@ class ProductController extends Controller
         if (! $product) {
             return response()->json([
                 'message' => 'Product not created'],
-                Response::HTTP_UNPROCESSABLE_ENTITY);
+                Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         // Retorna um resposta
         return response()->json([
-            'message' => 'Sucessfully created',
-            'data' => $product, ],
+            'message' => 'Successfully created',
+            'data' => $product],
             Response::HTTP_CREATED);
     }
 
@@ -62,8 +62,8 @@ class ProductController extends Controller
 
         // Retorna uma resposta
         return Response()->json([
-            'data' => $product,
-            Response::HTTP_OK]);
+            'Data' => $product],
+            Response::HTTP_OK);
     }
 
     /**
@@ -77,7 +77,7 @@ class ProductController extends Controller
 
         if (! $product) {
             return response()->json([
-                'message' => 'product does not exist'],
+                'message' => 'Product does not exist'],
                 Response::HTTP_UNPROCESSABLE_ENTITY
             );
         }
@@ -86,16 +86,16 @@ class ProductController extends Controller
         $response = $product->update($data);
         if (! $response) {
             return response()->json([
-                'message' => 'Error to the update the product.'],
-                Response::HTTP_UNPROCESSABLE_ENTITY
+                'message' => 'Error to the update the product'],
+                Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }
 
         // Retorna uma resposta
         return response()->json([
-            'message' => 'Updated sucessfully',
+            'message' => 'Updated successfully',
             'data' => $product],
-             Response::HTTP_OK);
+            Response::HTTP_OK);
 
     }
 
@@ -112,10 +112,15 @@ class ProductController extends Controller
                 Response::HTTP_NOT_FOUND);
         }
 
-        // Deleta o produto
-        $product->delete();
+        $response = $product->delete();
+        if (! $response) {
+            return response()->json([
+                'message' => 'Error when product delete'],
+                Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
         return response()->json([
-            'message' => 'Deleted sucessfully'],
+            'message' => 'Deleted successfully'],
             Response::HTTP_OK);
     }
 }
