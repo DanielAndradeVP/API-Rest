@@ -33,7 +33,7 @@ class UpdateStatusRequest extends FormRequest
     {
         return [
             'status.required' => 'The status is required',
-            'status.boolean' => 'status needs to be boolean',
+            'status.boolean' => 'Status needs to be boolean',
         ];
     }
 }
