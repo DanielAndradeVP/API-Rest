@@ -105,18 +105,27 @@ class CategoryController extends Controller
                 'message' => 'Category not exist'],
                 Response::HTTP_NOT_FOUND);
         }
-
-        $response = $category->delete();
-        if (! $response) {
+        
+       $productsCount = $category->products()->count();
+        if($productsCount > 0)
+        {
             return response()->json([
-                'message' => 'Error when product delete'],
-                Response::HTTP_INTERNAL_SERVER_ERROR);
+                'message' => 'Category with products cannot be deleted, please delete the products first'
+            ]);
         }
-
-        return response()->json([
-            'message' => 'Deleted successfully'],
-            Response::HTTP_OK);
+    
+        $response = $category->delete();
+        if (!$response) {
+            return response()->json([
+                'message' => 'Error when deleting category'],
+                Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+            return response()->json([
+                'message' => 'Deleted successfully'],
+                Response::HTTP_OK);
+        
     }
+    
 
     public function UpdateStatus(UpdateStatusRequest $request, $id)
     {
@@ -133,7 +142,7 @@ class CategoryController extends Controller
 
         // Atualiza o status da categoria
         $category->status = $newStatus;
-
+        // dd($category->status);
         // Salva o novo status da categoria
         if (! $category->save()) {
             return response()->json([

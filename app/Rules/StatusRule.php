@@ -17,9 +17,8 @@ class StatusRule implements ValidationRule
     {
 
         $category = Category::find($value);
-        if ($category->status != true) {
+        if (!$category?->status ) {
             $fail('The category must be active to create one product.');
         }
-
     }
 }
